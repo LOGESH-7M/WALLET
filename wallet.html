@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,32 +8,158 @@
     <link rel="shortcut icon" href="IMAGES/favicon.jpg" type="image/x-icon">
     <link rel="stylesheet" href="wallet.css">
 </head>
+
 <body>
-    <main>
-        <section class="card-details">
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Wallet</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <form id="settings-form">
+                <div class="form-row">
+                    <div class="input-group full-width">
+                        <label for="edit-holder">Card Holder Name</label>
+                        <input type="text" id="edit-holder" value="LOGESH M" placeholder="Enter name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="edit-balance">Balance</label>
+                        <input type="text" id="edit-balance" value="5,000" placeholder="0.00">
+                    </div>
+                    <div class="input-group">
+                        <label for="edit-expiry">Expiry</label>
+                        <input type="text" id="edit-expiry" value="12/30" placeholder="MM/YY">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="input-group full-width">
+                        <label for="edit-number">Card Number</label>
+                        <input type="text" id="edit-number" value="•••• •••• •••• 4970" placeholder="Card number">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 1rem;">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <main class="dashboard-container">
+        <!-- LEFT COLUMN: WALLET GROUP -->
+        <section class="wallet-group">
+            <!-- 1. WALLET CARD -->
             <div class="card-wrapper">
                 <div class="card-title">
-
+                    <!-- Premium SVG EMV Chip -->
+                    <svg class="emv-chip" viewBox="0 0 50 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="50" height="38" rx="6" fill="url(#chip-gradient)" />
+                        <path d="M0 13H16C19.3137 13 22 15.6863 22 19C22 22.3137 19.3137 25 16 25H0" stroke="#B48E43"
+                            stroke-width="1.5" stroke-opacity="0.6" />
+                        <path d="M50 13H34C30.6863 13 28 15.6863 28 19C28 22.3137 30.6863 25 34 25H50" stroke="#B48E43"
+                            stroke-width="1.5" stroke-opacity="0.6" />
+                        <path d="M16 0V13" stroke="#B48E43" stroke-width="1.5" stroke-opacity="0.6" />
+                        <path d="M34 0V13" stroke="#B48E43" stroke-width="1.5" stroke-opacity="0.6" />
+                        <path d="M16 38V25" stroke="#B48E43" stroke-width="1.5" stroke-opacity="0.6" />
+                        <path d="M34 38V25" stroke="#B48E43" stroke-width="1.5" stroke-opacity="0.6" />
+                        <path d="M25 15V23" stroke="#B48E43" stroke-width="1.5" stroke-opacity="0.6"
+                            stroke-linecap="round" />
+                        <rect x="0.75" y="0.75" width="48.5" height="36.5" rx="5.25" stroke="url(#border-gradient)"
+                            stroke-width="1.5" />
+                        <defs>
+                            <linearGradient id="chip-gradient" x1="0" y1="0" x2="50" y2="38"
+                                gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FFD700" />
+                                <stop offset="0.5" stop-color="#FDB931" />
+                                <stop offset="1" stop-color="#FFD700" />
+                            </linearGradient>
+                            <linearGradient id="border-gradient" x1="0" y1="0" x2="50" y2="38"
+                                gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FFF5C3" />
+                                <stop offset="1" stop-color="#C69E57" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <button class="safe-badge">
+                        <span class="safe-dot"></span>
+                        SECURE
+                    </button>
                 </div>
+                <!-- Card Balance -->
                 <div class="card-balance">
-
+                    <p class="label">Total Balance</p>
+                    <p class="amount" id="display-balance">₹5,000</p>
+                    <p class="card-number" id="display-number">•••• •••• •••• 4970</p>
                 </div>
+                <!-- Card Footer -->
                 <div class="card-footer">
-
+                    <div class="cardholder-info">
+                        <p class="label">Card Holder</p>
+                        <p class="value" id="display-holder">LOGESH M</p>
+                    </div>
+                    <div class="expiry-info">
+                        <p class="label">Expires</p>
+                        <p class="value" id="display-expiry">12/30</p>
+                    </div>
                 </div>
             </div>
-        </section>
-        <section class="add-expense">
-            <input type="text" class="add-expense-field" placeholder="Enter expense amount">
-            <input type="text" class="category" placeholder="Category">
-            <input type="text" class="note" placeholder="Note">
-            <button class="add-expense-button">Add Expense</button>
-        </section>
-        <section class="transaction-history">
-            <h2>Transaction History</h2>
-            <button class="clearall-button">Clear All</button>
 
+            <!-- 2. SETTINGS TRIGGER -->
+            <button class="settings-trigger" id="settings-trigger">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="icon">
+                    <path
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Wallet Settings
+            </button>
+
+            <!-- 3. ADD EXPENSE FORM -->
+            <div class="add-expense-card">
+                <form>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="amount">Amount</label>
+                            <input type="text" id="amount" placeholder="₹0.00">
+                        </div>
+                        <div class="input-group">
+                            <label for="category">Category</label>
+                            <div class="select-wrapper">
+                                <select id="category">
+                                    <option value="food">🍔 Food & Dining</option>
+                                    <option value="transport">🚗 Transportation</option>
+                                    <option value="shopping">🛍️ Shopping</option>
+                                    <option value="entertainment">🎬 Entertainment</option>
+                                    <option value="bills">💳 Bills & Utilities</option>
+                                    <option value="other">📦 Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group full-width">
+                        <label for="note">Note</label>
+                        <input type="text" id="note" placeholder="What was this for?">
+                    </div>
+                    <button type="submit" class="btn-primary">Add Transaction</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- RIGHT COLUMN: TRANSACTIONS -->
+        <section class="transactions-panel">
+            <div class="panel-header">
+                <h3>Recent Activity</h3>
+                <button class="btn-text">Clear All</button>
+            </div>
+            <div class="transaction-list empty-state">
+                <div class="empty-icon">💸</div>
+                <p>No transactions yet</p>
+                <span>Start spending to see your history</span>
+            </div>
         </section>
     </main>
+    <script src="wallet.js"></script>
 </body>
+
 </html>
